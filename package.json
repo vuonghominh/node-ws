@@ -4,8 +4,8 @@
   "description": "simple websocket",
   "main": "server.js",
   "dependencies": {
-    "express": "^4.4.5",
-    "ws": "0.4.x"
+    "socket.io": "latest",
+    "express": "latest"
   },
   "engines": {
     "node": "0.10.x"

@@ -1,13 +1,11 @@
-var express = require("express");
-var app     = express();
-app.use(express.static(__dirname + "/"));
+var env     = process.env.NODE_ENV = process.env.NODE_ENV || 'production';
+var config  = require('./server/config/config')[env];
+var app  = require('express')();
+var http = require('http').Server(app);
+var io   = require('socket.io')(http);
 
-var env    = process.env.NODE_ENV = process.env.NODE_ENV || 'production';
-var config = require('./server/config/config')[env];
+require('./server/socket/test')(io);
 
-var http   = require("http");
-var server = http.createServer(app)
-server.listen(config.port)
-console.log("http server listening on %d", config.port)
-
-require('./server/socket/test')(server, config);
+http.listen(config.port, function(){
+  console.log("http server listening on %d", config.port);
+});

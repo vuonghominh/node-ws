@@ -1,19 +1,15 @@
-var WebSocketServer = require("ws").Server;
 
-module.exports = function(server, config){
-	var wss = new WebSocketServer({server: server});
-	console.log("websocket server created!");
+module.exports = function(io){
+	io.on('connection', function(socket){
+	  console.log('a user connected');
 
-	wss.on("connection", function(ws) {
-	  var id = setInterval(function() {
-	    ws.send(JSON.stringify(new Date()), function() {  })
-	  }, 1000)
+	  socket.on('chat message', function(msg){
+	    console.log('message: ' + msg);
+	    if(msg == 'fuck') io.emit('chat message', 'cam noi bay');
+	  });
 
-	  console.log("websocket connection open")
-
-	  ws.on("close", function() {
-	    console.log("websocket connection close")
-	    clearInterval(id)
-	  })
-	})
+	  socket.on('disconnect', function(){
+	    console.log('user disconnected');
+	  });
+	});
 }
